@@ -1,0 +1,14 @@
+<resources>
+    <color name="grey">#7a7b7b</color>
+
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="android:actionBarStyle">@style/ActionBarStyle</item>
+        <item name="actionBarStyle">@style/ActionBarStyle</item>
+    </style>
+
+    <style name="ActionBarStyle" parent="@style/Widget.AppCompat.Light.ActionBar.Solid.Inverse">
+        <item name="android:background">@color/grey</item>
+        <item name="background">@color/grey</item>
+    </style>
+
+</resources>
