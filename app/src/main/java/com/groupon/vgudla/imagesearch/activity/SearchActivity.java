@@ -116,7 +116,9 @@ public class SearchActivity extends AppCompatActivity {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 try {
-                    if (response == null) {
+                    //Google image APIs seem to embed error codes within the response and return 200 OK
+                    int responseStatus = response.getInt("responseStatus");
+                    if (response == null || responseStatus != 200) {
                         return;
                     }
                     JSONObject resonseObject = response.getJSONObject("responseData");
