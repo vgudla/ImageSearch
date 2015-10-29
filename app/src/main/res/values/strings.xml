@@ -12,6 +12,6 @@
     <string name="color_filter_text">Color Filter</string>
     <string name="image_type_text">Image Type</string>
     <string name="site_filter_text">Site Filter</string>
-    <string name="button_save">Save</string>
-    <string name="button_cancel">Cancel</string>
+    <string name="button_save">SAVE</string>
+    <string name="button_cancel">CANCEL</string>
 </resources>

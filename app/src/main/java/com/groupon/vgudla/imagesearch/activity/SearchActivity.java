@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -17,6 +18,8 @@ import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.Toast;
 
+import com.groupon.vgudla.imagesearch.fragment.SettingsDialog;
+import com.groupon.vgudla.imagesearch.interfaces.SettingsDialogListener;
 import com.groupon.vgudla.imagesearch.listener.InfiniteScrollListener;
 import com.groupon.vgudla.imagesearch.R;
 import com.groupon.vgudla.imagesearch.adapter.ImageAdapter;
@@ -33,7 +36,7 @@ import java.util.List;
 
 import cz.msebera.android.httpclient.Header;
 
-public class SearchActivity extends AppCompatActivity {
+public class SearchActivity extends AppCompatActivity implements SettingsDialogListener {
     public static final String FULL_IMAGE_URL = "fullImageUrl";
     public static final int REQUEST_CODE = 200;
     public static final String COLOR = "imgcolor";
@@ -184,19 +187,22 @@ public class SearchActivity extends AppCompatActivity {
     }
 
     public void onClickSettings(MenuItem item) {
-        Intent settingsIntent = new Intent(SearchActivity.this, SettingsActivity.class);
-        startActivityForResult(settingsIntent, REQUEST_CODE);
+        FragmentManager fm = getSupportFragmentManager();
+        SettingsDialog settingsDialog = SettingsDialog.newInstance(imageSize, imageType, color, siteSearch);
+        settingsDialog.show(fm, "fragment_edit_name");
+
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        // REQUEST_CODE is defined above
-        if (resultCode == RESULT_OK && requestCode == REQUEST_CODE) {
-            // Extract name value from result extras
-            color = data.getExtras().getString(COLOR, "");
-            imageSize = data.getExtras().getString(IMAGE_SIZE, "");
-            imageType = data.getExtras().getString(IMAGE_TYPE, "");
-            siteSearch = data.getExtras().getString(SITE_SEARCH, "");
-        }
+    public void onSaveSettings(String imgType, String imgSize, String imgColor, String site) {
+        color = imgColor;
+        imageSize = imgSize;
+        imageType = imgType;
+        siteSearch = site;
+    }
+
+    @Override
+    public void onCancelEdit() {
+        //do nothing - leave settings unmodified
     }
 }
