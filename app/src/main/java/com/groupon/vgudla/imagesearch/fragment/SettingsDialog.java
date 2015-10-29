@@ -20,16 +20,11 @@ import java.util.Arrays;
 import java.util.List;
 
 public class SettingsDialog extends DialogFragment {
-
-    private Spinner colorFilterSpinner;
-    private Spinner imageTypeSpinner;
-    private Spinner imageSizeSpinner;
+    private static final String DIALOG_TITLE = "Search Filters"; //TODO: Read this from strings.xml
     private EditText siteFilter;
     private String imageSize;
     private String imageType;
     private String colorFilter;
-    private Button saveButton;
-    private Button cancelButton;
 
     public SettingsDialog() {
         // Empty constructor is required for DialogFragment
@@ -50,14 +45,44 @@ public class SettingsDialog extends DialogFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.activity_settings, container);
+        return inflater.inflate(R.layout.dialog_settings, container);
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        getDialog().setTitle("Search Filters");
+        setupSpinners(view);
+        siteFilter = (EditText) view.findViewById(R.id.etSiteFilter);
+        siteFilter.setText(getArguments().getString(SearchActivity.SITE_SEARCH));
+        setupButtons(view);
+    }
 
-        imageSizeSpinner = (Spinner) view.findViewById(R.id.spImageSize);
+    private void setupButtons(View view) {
+        Button saveButton = (Button) view.findViewById(R.id.btnSave);
+        saveButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SettingsDialogListener dialogListener = (SettingsDialogListener) getActivity();
+                dialogListener.onSaveSettings(imageType, imageSize, colorFilter,
+                        siteFilter.getText().toString());
+                dismiss();
+            }
+        });
+
+        Button cancelButton = (Button) view.findViewById(R.id.btnCancel);
+        cancelButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SettingsDialogListener dialogListener = (SettingsDialogListener) getActivity();
+                dialogListener.onCancelEdit();
+                dismiss();
+            }
+        });
+    }
+
+    private void setupSpinners(View view) {
+        Spinner imageSizeSpinner = (Spinner) view.findViewById(R.id.spImageSize);
         List<String> imageSizes = Arrays.asList("small", "medium", "large", "xlarge");
         ArrayAdapter<String> imageSizeAdapter = new ArrayAdapter<>(getContext(),
                 android.R.layout.simple_spinner_item, imageSizes);
@@ -79,7 +104,7 @@ public class SettingsDialog extends DialogFragment {
             }
         });
 
-        colorFilterSpinner = (Spinner) view.findViewById(R.id.spColorFilter);
+        Spinner colorFilterSpinner = (Spinner) view.findViewById(R.id.spColorFilter);
         List<String> colors = Arrays.asList("black", "blue", "brown", "gray", "green", "orange",
                 "pink", "purple", "red", "teal", "white", "yellow");
         ArrayAdapter<String> colorAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, colors);
@@ -102,7 +127,7 @@ public class SettingsDialog extends DialogFragment {
             }
         });
 
-        imageTypeSpinner = (Spinner) view.findViewById(R.id.spImageType);
+        Spinner imageTypeSpinner = (Spinner) view.findViewById(R.id.spImageType);
         List<String> imageTypes = Arrays.asList("face", "photo", "clipart", "lineart");
         ArrayAdapter<String> typeAdapter = new ArrayAdapter<>(getContext(),
                 android.R.layout.simple_spinner_item, imageTypes);
@@ -121,30 +146,6 @@ public class SettingsDialog extends DialogFragment {
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
                 //do nothing
-            }
-        });
-
-        siteFilter = (EditText) view.findViewById(R.id.etSiteFilter);
-        siteFilter.setText(getArguments().getString(SearchActivity.SITE_SEARCH));
-
-        saveButton = (Button) view.findViewById(R.id.btnSave);
-        saveButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                SettingsDialogListener dialogListener = (SettingsDialogListener) getActivity();
-                dialogListener.onSaveSettings(imageType, imageSize, colorFilter,
-                        siteFilter.getText().toString());
-                dismiss();
-            }
-        });
-
-        cancelButton = (Button) view.findViewById(R.id.btnCancel);
-        cancelButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                SettingsDialogListener dialogListener = (SettingsDialogListener) getActivity();
-                dialogListener.onCancelEdit();
-                dismiss();
             }
         });
     }
