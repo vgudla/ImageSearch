@@ -40,13 +40,17 @@ The following **additional** features are implemented:
 
 Here's a walkthrough of implemented user stories:
 
-<img src='http://i.imgur.com/link/to/your/gif/file.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+<img src='http://i.giphy.com/3oEduJtEaFS6wU0aZi.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
 
 GIF created with [LiceCap](http://www.cockos.com/licecap/).
 
 ## Notes
 
 Describe any challenges encountered while building the app.
+Issues with StaggeredGridView:
+- Couldn't get the infinite scroll to work properly with it. Images disappeared on quick scrolling
+Issues with TouchImageView:
+- App would crash when ImageView was replaced with TouchImageView. Tried changing compile version etc  but couldn't get it to work
 
 ## Open-source libraries used
 
